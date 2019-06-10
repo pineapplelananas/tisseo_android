@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -57,12 +60,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "The Database is empty  :(.", Toast.LENGTH_LONG).show();
                 }
                 else{
-
-                    System.out.println(stationList.get(position));
-                    System.out.println("-------station_click--------");
-                    System.out.println(position);
-                    System.out.println("-------station_click--------");
-
                     item = stationList.get(position);
                     Intent intent = new Intent(MainActivity.this, InfoStationActivy.class);
                     intent.putExtra("id",item.getId_station());
@@ -85,37 +82,26 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected ListView doInBackground(Void... arg0) {
-            System.out.println("-----0--------");
             HttpHandler sh = new HttpHandler();
-            System.out.println("-----1--------");
             // Making a request to url and getting response
             String jsonStr = sh.makeServiceCall("https://api.tisseo.fr/v1/lines.json?&key=48e242b6-a196-40ec-8192-74bc0d76eda1");
-            System.out.println("2");
             if (jsonStr != null) {
-                System.out.println("3");
                 try {
-                    System.out.println("--------------- 444 ---------------");
-
-
                     JSONObject jsonObj = new JSONObject(jsonStr);
 
                     // Getting JSON Array node
                     JSONObject stations_json = jsonObj.getJSONObject("lines");
-
                     JSONArray stations_json_line = stations_json.getJSONArray("line");
 
                     // looping through All stations
                     for (int i = 0; i < stations_json_line.length(); i++) {
                         JSONObject c = stations_json_line.getJSONObject(i);
-
-                        System.out.println("------------------------------");
-                        System.out.println(c);
                         if(c != null && c.getString("name") != null){
-                            System.out.println(c.getString("name"));
+                            //System.out.println(c.getString("name"));
                             String id = c.getString("id");
                             String name = c.getString("name");
                             String line_number_json = c.getString("shortName");
-                            station = new Station(name, line_number_json, id);
+                            station = new Station(name, line_number_json, id, c.getString("bgXmlColor"));
                             stationList.add(i, station);
                         }
                         else {
@@ -133,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_LONG).show();
                         }
                     });
-
                 }
 
             } else {
@@ -147,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-
             return lv;
         }
 
@@ -158,4 +142,29 @@ public class MainActivity extends AppCompatActivity {
             lv.setAdapter(adapter);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.lines:
+                Intent aboutIntent_lines = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(aboutIntent_lines);
+                return true;
+            case R.id.itineraire:
+                Intent aboutIntent_iti = new Intent(MainActivity.this, journeys.class);
+                startActivity(aboutIntent_iti);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 }

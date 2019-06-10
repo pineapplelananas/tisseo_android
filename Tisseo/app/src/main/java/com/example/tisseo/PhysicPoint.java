@@ -1,9 +1,13 @@
 package com.example.tisseo;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -197,6 +201,30 @@ public class PhysicPoint extends AppCompatActivity {
             // build listView
             ListAdapter adapter = new ListPhysicPoint(PhysicPoint.this, R.layout.list_physic_stop, pstopList);
             lvpp.setAdapter(adapter);
+        }
+    }
+
+    // Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.lines:
+                Intent aboutIntent_lines = new Intent(PhysicPoint.this, MainActivity.class);
+                startActivity(aboutIntent_lines);
+                return true;
+            case R.id.itineraire:
+                Intent aboutIntent_iti = new Intent(PhysicPoint.this, journeys.class);
+                startActivity(aboutIntent_iti);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

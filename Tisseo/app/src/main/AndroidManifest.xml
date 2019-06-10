@@ -15,7 +15,8 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
-        <activity android:name=".journeys"></activity>
+        <activity android:name=".JourneySteps"></activity>
+        <activity android:name=".journeys" />
         <activity android:name=".PhysicPoint" />
         <activity android:name=".InfoStationActivy" />
         <activity android:name=".MainActivity">

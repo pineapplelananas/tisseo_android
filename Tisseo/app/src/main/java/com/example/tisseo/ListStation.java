@@ -1,6 +1,7 @@
 package com.example.tisseo;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +36,14 @@ class ListStation extends ArrayAdapter<Station> {
             TextView name = (TextView) convertView.findViewById(R.id.name_station);
             TextView line_number = (TextView) convertView.findViewById(R.id.line_number_station);
             TextView direction= (TextView) convertView.findViewById(R.id.direction_station);
-
+            String color= station.getColor();
             if (name != null) {
                 name.setText((station.getName()));
+                name.setTextColor(Color.parseColor(color));
             }
             if (line_number != null) {
                 line_number.setText((station.getLine_number()));
+                line_number.setTextColor(Color.parseColor(color));
             }
             if (direction != null) {
                 direction.setText((station.getDirection()));

@@ -1,9 +1,13 @@
 package com.example.tisseo;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -43,9 +47,11 @@ public class InfoStationActivy extends AppCompatActivity {
         TextView color = findViewById(R.id.color_info);
 
         // Set textView
+        String color_l = getIntent().getStringExtra("color");
         name.setText(getIntent().getStringExtra("name"));
+        line_number.setTextColor(Color.parseColor(color_l));
         line_number.setText("Ligne: "+getIntent().getStringExtra("line_number"));
-        color.setText("Couleur: "+getIntent().getStringExtra("color"));
+        color.setText("");
 
         // call request
         new GetStops().execute();
@@ -151,6 +157,30 @@ public class InfoStationActivy extends AppCompatActivity {
             System.out.println(url_stops);
             lvi.setAdapter(adapter);
 
+        }
+    }
+
+    // Menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.lines:
+                Intent aboutIntent_lines = new Intent(InfoStationActivy.this, MainActivity.class);
+                startActivity(aboutIntent_lines);
+                return true;
+            case R.id.itineraire:
+                Intent aboutIntent_iti = new Intent(InfoStationActivy.this, journeys.class);
+                startActivity(aboutIntent_iti);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

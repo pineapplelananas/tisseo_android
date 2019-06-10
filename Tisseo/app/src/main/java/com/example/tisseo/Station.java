@@ -22,6 +22,12 @@ public class Station {
         this.line_number = line_number;
         this.id_station = id_station;
     }
+    public Station(String name, String line_number, String id_station, String color) {
+        this.name = name;
+        this.line_number = line_number;
+        this.id_station = id_station;
+        this.color = color;
+    }
 
     public String getName() {
         return name;
